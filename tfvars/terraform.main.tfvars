@@ -1,6 +1,6 @@
 state_bucket = "auto-blog-prod-tf-state-bkt"
 prefix       = "autoblog-prod"
-ENV          = "PROD"
+env          = "PROD"
 
 gcp = {
   project = "gcp-automated-blog-prod"
