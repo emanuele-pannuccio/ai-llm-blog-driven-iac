@@ -12,6 +12,8 @@ crash.log
 .terraform.tfvars
 terraform.tfvars
 
+providers.tf
+
 # Local Terraform directories
 .terraform/
 .terraform.lock.hcl

@@ -29,8 +29,3 @@ module "gcp-infra" {
   prefix  = var.prefix
   region  = var.gcp.region
 }
-
-output "name" {
-  value     = module.gcp-infra.github_sa_key
-  sensitive = true
-}

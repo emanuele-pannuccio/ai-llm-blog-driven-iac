@@ -1,25 +1,76 @@
-locals {
-  repo_prefix = "ai-llm-blog-driven"
-  repositories = [
-    "cluster-manifests",
-    "crawler",
-    "aws-tunnel",
-    "be",
-    "fe",
-    "ai-agent",
-    "ai-ollama",
-  ]
-}
-
-resource "github_repository" "default" {
-  for_each   = toset(local.repositories)
-  name       = "${local.repo_prefix}-${each.key}"
+resource "github_repository" "default_cluster-manifests" {
+  name       = "ai-llm-blog-driven-cluster-manifests"
   visibility = "public"
 }
 
-resource "github_actions_secret" "example_secret" {
-  for_each        = toset(local.repositories)
-  repository      = github_repository.default[each.key].name
+resource "github_actions_secret" "secret_cluster-manifests" {
+  repository      = github_repository.default_cluster-manifests.name
   secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
-  plaintext_value = module.gcp-infra.github_sa_key
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_crawler" {
+  name       = "ai-llm-blog-driven-crawler"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_crawler" {
+  repository      = github_repository.default_crawler.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_aws-tunnel" {
+  name       = "ai-llm-blog-driven-aws-tunnel"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_aws-tunnel" {
+  repository      = github_repository.default_aws-tunnel.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_be" {
+  name       = "ai-llm-blog-driven-be"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_be" {
+  repository      = github_repository.default_be.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_fe" {
+  name       = "ai-llm-blog-driven-fe"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_fe" {
+  repository      = github_repository.default_fe.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_ai-agent" {
+  name       = "ai-llm-blog-driven-ai-agent"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_ai-agent" {
+  repository      = github_repository.default_ai-agent.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
+}
+
+resource "github_repository" "default_ai-ollama" {
+  name       = "ai-llm-blog-driven-ai-ollama"
+  visibility = "public"
+}
+
+resource "github_actions_secret" "secret_ai-ollama" {
+  repository      = github_repository.default_ai-ollama.name
+  secret_name     = "GOOGLE_${var.env}_ENVIRONMENT_SA"
+  plaintext_value = base64decode(module.gcp-infra.github_sa_key)
 }
