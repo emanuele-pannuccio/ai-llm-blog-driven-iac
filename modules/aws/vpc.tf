@@ -75,7 +75,7 @@ module "vpc" {
   database_subnets = local.database_subnets
 
   create_database_subnet_group       = true
-  create_database_subnet_route_table = true
+  create_database_subnet_route_table = false
 
   enable_dns_hostnames = true
   enable_dns_support   = true
