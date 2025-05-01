@@ -17,15 +17,27 @@ module "tf-state-bucket" {
 }
 
 module "aws-infra" {
-  source          = "./modules/aws"
-  prefix          = var.prefix
-  gcp_nat_gateway = module.gcp-infra.nat_gateway
+  source = "./modules/aws"
+  prefix = var.prefix
+
+  gcp = {
+    nat_ip = module.gcp-infra.nat_gateway
+    workloads = [
+      "crawler", "ai-agent", "blog-be"
+    ]
+  }
+
+  vpc = {
+    cidr = var.aws.cidr
+  }
 }
 
 module "gcp-infra" {
-  source = "./modules/gcp"
-
+  source  = "./modules/gcp"
   project = var.gcp.project
-  prefix  = var.prefix
-  region  = var.gcp.region
+
+  region = var.gcp.region
+
+  prefix = var.prefix
+  env    = lower(var.env)
 }

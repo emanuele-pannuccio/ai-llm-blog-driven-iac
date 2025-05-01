@@ -12,14 +12,14 @@ module "rabbitmq-broker-sg" {
       to_port     = 443
       protocol    = "tcp"
       description = "Allow ingress GUI RabbitMQ traffic"
-      cidr_blocks = module.vpc.private_subnets_cidr_blocks[0]
+      cidr_blocks = local.private_subnets["bastion-snet"]
     },
     {
       from_port   = 5671
       to_port     = 5671
       protocol    = "tcp"
       description = "Allow ingress AMQP traffic"
-      cidr_blocks = module.vpc.private_subnets_cidr_blocks[0]
+      cidr_blocks = local.private_subnets["bastion-snet"]
     }
   ]
 }
