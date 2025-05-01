@@ -1,6 +1,6 @@
 region: europe-west4
 description: Sample description
-ip_cidr_range: 10.0.1.0/24
+ip_cidr_range: 10.0.1.8/29
 # enable_private_access: true  # defaults to true
 # iam:
 secondary_ip_ranges: # map of secondary ip ranges
