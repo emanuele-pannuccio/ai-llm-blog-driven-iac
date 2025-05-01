@@ -33,9 +33,11 @@ module "aws-infra" {
 }
 
 module "gcp-infra" {
-  source = "./modules/gcp"
-
+  source  = "./modules/gcp"
   project = var.gcp.project
-  prefix  = var.prefix
-  region  = var.gcp.region
+
+  region = var.gcp.region
+
+  prefix = var.prefix
+  env    = lower(var.env)
 }

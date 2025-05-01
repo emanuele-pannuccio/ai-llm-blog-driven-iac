@@ -6,3 +6,7 @@ gcp = {
   project = "gcp-automated-blog-prod"
   region  = "europe-west4"
 }
+
+aws = {
+  cidr = "10.0.1.0/25"
+}

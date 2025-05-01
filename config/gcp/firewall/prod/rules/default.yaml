@@ -5,17 +5,8 @@ ingress:
       - 35.235.240.0/20
     use_service_accounts: true
     sources:
-      - tf-vm-auto-blog-bastion-vm@gcp-automated-blog-test.iam.gserviceaccount.com
+      - tf-vm-auto-blog-bastion-vm@gcp-automated-blog-prod.iam.gserviceaccount.com
     rules:
       - protocol: tcp
         ports:
           - 22
-
-# egress:
-#   block-telnet:
-#     description: block outbound telnet
-#     deny: true
-#     rules:
-#       - protocol: tcp
-#         ports:
-#           - 23

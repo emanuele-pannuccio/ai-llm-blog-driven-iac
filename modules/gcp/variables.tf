@@ -1,14 +1,19 @@
 variable "project" {
-  type = string
+  type     = string
   nullable = false
 }
 
 variable "prefix" {
-  type = string
+  type     = string
   nullable = false
 }
 
 variable "region" {
-  type = string
+  type     = string
+  nullable = false
+}
+
+variable "env" {
+  type     = string
   nullable = false
 }
