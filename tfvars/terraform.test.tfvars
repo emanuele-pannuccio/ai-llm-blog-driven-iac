@@ -7,3 +7,7 @@ gcp = {
   region  = "europe-west4"
   prefix  = "auto-blog"
 }
+
+aws = {
+  cidr = "10.0.0.0/25"
+}

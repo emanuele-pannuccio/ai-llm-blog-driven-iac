@@ -3,7 +3,16 @@ variable "prefix" {
   default = "automated-blog"
 }
 
-variable "gcp_nat_gateway" {
-  type     = string
+variable "vpc" {
+  type = object({
+    cidr = string
+  })
   nullable = false
+}
+
+variable "gcp" {
+  type = object({
+    workloads = list(string)
+    nat_ip    = string
+  })
 }

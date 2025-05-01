@@ -1,8 +1,8 @@
 locals {
-  gcp_cloud_nat_gw = var.gcp_nat_gateway # Cloud NAT Gateway - GCP
+  gcp_cloud_nat_gw = var.gcp.nat_ip # Cloud NAT Gateway - GCP
 }
 
-module "bastion-host-sg" {
+module "bastion-host-ssm-sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.3.0"
 
@@ -16,9 +16,20 @@ module "bastion-host-sg" {
       to_port     = 443
       protocol    = "tcp"
       description = "Allow ingress HTTPS traffic from SSM Manager Tunnel"
-      cidr_blocks = "10.0.0.0/16"
+      cidr_blocks = module.vpc.vpc_cidr_block
     }
   ]
+}
+
+module "bastion-host-sg" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "5.3.0"
+
+  name = "${var.prefix}-bastion-sg"
+
+  vpc_id = module.vpc.vpc_id
+
+  ingress_with_cidr_blocks = []
 
   egress_with_cidr_blocks = [
     {
@@ -26,14 +37,21 @@ module "bastion-host-sg" {
       to_port     = 443
       protocol    = "tcp"
       description = "Allow all outbound traffic"
-      cidr_blocks = "10.0.0.0/16"
+      cidr_blocks = module.vpc.vpc_cidr_block
+    },
+    {
+      from_port   = 5671
+      to_port     = 5671
+      protocol    = "tcp"
+      description = "Allow all outbound traffic"
+      cidr_blocks = module.vpc.vpc_cidr_block
     },
     {
       from_port   = 3306
       to_port     = 3306
       protocol    = "tcp"
       description = "Allow all outbound traffic"
-      cidr_blocks = "10.0.0.0/16"
+      cidr_blocks = module.vpc.vpc_cidr_block
     },
   ]
 }
@@ -47,7 +65,11 @@ module "bastion-host" {
   ignore_ami_changes = false
   ami                = "ami-0e03e80affb5b6b06"
 
-  vpc_security_group_ids      = [module.bastion-host-sg.security_group_id]
+  vpc_security_group_ids = [
+    module.bastion-host-sg.security_group_id,
+    module.bastion-host-ssm-sg.security_group_id
+  ]
+
   create_iam_instance_profile = true
 
   iam_role_policies = {
