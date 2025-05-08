@@ -6,9 +6,9 @@ module "artifact-registry" {
   format     = { docker = { standard = {} } }
   iam = {
     "roles/artifactregistry.writer" = [module.github-sa.iam_email]
-    "roles/artifactregistry.reader" = [
-      module.cluster-gke-nodepool-cpu-1.service_account_iam_email,
-      module.cluster-gke-nodepool-gpu-1.service_account_iam_email
-    ]
+    # "roles/artifactregistry.reader" = [
+    #   module.cluster-gke-nodepool-cpu-1.service_account_iam_email,
+    #   module.cluster-gke-nodepool-gpu-1.service_account_iam_email
+    # ]
   }
 }

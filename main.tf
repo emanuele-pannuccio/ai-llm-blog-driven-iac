@@ -16,21 +16,21 @@ module "tf-state-bucket" {
   }
 }
 
-module "aws-infra" {
-  source = "./modules/aws"
-  prefix = var.prefix
+# module "aws-infra" {
+#   source = "./modules/aws"
+#   prefix = var.prefix
 
-  gcp = {
-    nat_ip = module.gcp-infra.nat_gateway
-    workloads = [
-      "crawler", "ai-agent", "blog-be"
-    ]
-  }
+#   gcp = {
+#     nat_ip = module.gcp-infra.nat_gateway
+#     workloads = [
+#       "crawler", "ai-agent", "blog-be"
+#     ]
+#   }
 
-  vpc = {
-    cidr = var.aws.cidr
-  }
-}
+#   vpc = {
+#     cidr = var.aws.cidr
+#   }
+# }
 
 module "gcp-infra" {
   source  = "./modules/gcp"

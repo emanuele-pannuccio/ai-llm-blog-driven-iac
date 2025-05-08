@@ -1,6 +1,9 @@
 resource "github_repository" "default_cluster-manifests" {
   name       = "ai-llm-blog-driven-cluster-manifests"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_cluster-manifests" {
@@ -12,6 +15,9 @@ resource "github_actions_secret" "secret_cluster-manifests" {
 resource "github_repository" "default_crawler" {
   name       = "ai-llm-blog-driven-crawler"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_crawler" {
@@ -23,6 +29,9 @@ resource "github_actions_secret" "secret_crawler" {
 resource "github_repository" "default_aws-tunnel" {
   name       = "ai-llm-blog-driven-aws-tunnel"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_aws-tunnel" {
@@ -34,6 +43,9 @@ resource "github_actions_secret" "secret_aws-tunnel" {
 resource "github_repository" "default_be" {
   name       = "ai-llm-blog-driven-be"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_be" {
@@ -45,6 +57,9 @@ resource "github_actions_secret" "secret_be" {
 resource "github_repository" "default_fe" {
   name       = "ai-llm-blog-driven-fe"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_fe" {
@@ -56,6 +71,9 @@ resource "github_actions_secret" "secret_fe" {
 resource "github_repository" "default_ai-agent" {
   name       = "ai-llm-blog-driven-ai-agent"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_ai-agent" {
@@ -67,6 +85,9 @@ resource "github_actions_secret" "secret_ai-agent" {
 resource "github_repository" "default_ai-ollama" {
   name       = "ai-llm-blog-driven-ai-ollama"
   visibility = "public"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "github_actions_secret" "secret_ai-ollama" {
