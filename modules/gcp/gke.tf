@@ -1,6 +1,6 @@
 module "cluster-gke-nodepool-cpu-1" {
-  source  = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool?ref=v38.0.0"
-  project_id     = module.project.project_id
+  source       = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool?ref=v38.0.0"
+  project_id   = module.project.project_id
   cluster_name = module.gke.name
   location     = "${var.region}-a"
   name         = "${var.prefix}-gke-node-cpu-np"
@@ -10,11 +10,11 @@ module "cluster-gke-nodepool-cpu-1" {
     oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
   node_config = {
-    machine_type        = "e2-standard-2"
-    disk_size_gb        = 20
-    disk_type           = "pd-balanced"
-    gvnic               = false
-    spot                = false
+    machine_type = "e2-standard-2"
+    disk_size_gb = 20
+    disk_type    = "pd-balanced"
+    gvnic        = false
+    spot         = false
   }
   nodepool_config = {
     management = {
@@ -24,9 +24,22 @@ module "cluster-gke-nodepool-cpu-1" {
   }
 }
 
+module "service-account" {
+  source = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account?ref=v38.0.0"
+
+  for_each = toset(var.workloads)
+
+  project_id = module.project.project_id
+  name       = "gcp-${each.key}"
+
+  iam = {
+    "roles/iam.workloadIdentityUser" = ["serviceAccount:gcp-automated-blog-test.svc.id.goog[${each.key}/${each.key}-sa]"]
+  }
+}
+
 module "cluster-gke-nodepool-gpu-1" {
-  source  = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool?ref=v38.0.0"
-  project_id     = module.project.project_id
+  source       = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool?ref=v38.0.0"
+  project_id   = module.project.project_id
   cluster_name = module.gke.name
   location     = "${var.region}-a"
   name         = "${var.prefix}-gke-node-gpu-np"
@@ -53,11 +66,11 @@ module "cluster-gke-nodepool-gpu-1" {
 }
 
 module "cluster-gke-nodepool-cpu-1-sa" {
-  source  = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account?ref=v38.0.0"
+  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account?ref=v38.0.0"
 
-  project_id = module.project.project_id
+  project_id             = module.project.project_id
   service_account_create = true
-  name       = "${var.prefix}-gke-node-cpu"
+  name                   = "${var.prefix}-gke-node-cpu"
 
   iam = {}
 
@@ -70,11 +83,11 @@ module "cluster-gke-nodepool-cpu-1-sa" {
 }
 
 module "cluster-gke-nodepool-gpu-1-sa" {
-  source  = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account?ref=v38.0.0"
+  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/iam-service-account?ref=v38.0.0"
 
-  project_id = module.project.project_id
+  project_id             = module.project.project_id
   service_account_create = true
-  name       = "${var.prefix}-gke-node-gpu"
+  name                   = "${var.prefix}-gke-node-gpu"
 
   iam = {}
 
@@ -87,11 +100,11 @@ module "cluster-gke-nodepool-gpu-1-sa" {
 }
 
 module "gke" {
-  source  = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-cluster-standard?ref=v38.0.0"
+  source = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-cluster-standard?ref=v38.0.0"
 
-  project_id     = module.project.project_id
-  
-  name           = "${var.prefix}-gke-cluster"
+  project_id = module.project.project_id
+
+  name = "${var.prefix}-gke-cluster"
 
   location = "${var.region}-a"
 
@@ -99,15 +112,15 @@ module "gke" {
 
   access_config = {
     ip_access = {
-        authorized_ranges = {
-          internal-bastion = "10.0.1.0/29"
-        }
+      authorized_ranges = {
+        internal-bastion = "10.0.1.0/29"
+      }
     }
   }
 
   vpc_config = {
-    network        = module.vpc.self_link
-    subnetwork     = module.vpc.subnet_self_links["${var.region}/auto-blog-gke-snet"]
+    network    = module.vpc.self_link
+    subnetwork = module.vpc.subnet_self_links["${var.region}/auto-blog-gke-snet"]
     secondary_range_names = {
       pods     = "pods"
       services = "services"
@@ -120,7 +133,7 @@ module "gke" {
 
   enable_features = {
     workload_identity = true
-    gateway_api = true
+    gateway_api       = true
   }
 
   enable_addons = {

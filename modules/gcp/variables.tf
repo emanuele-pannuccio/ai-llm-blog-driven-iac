@@ -17,3 +17,7 @@ variable "env" {
   type     = string
   nullable = false
 }
+
+variable "workloads" {
+  type = list(string)
+}

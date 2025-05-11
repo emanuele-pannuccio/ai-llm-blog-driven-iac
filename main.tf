@@ -21,10 +21,8 @@ module "aws-infra" {
   prefix = var.prefix
 
   gcp = {
-    nat_ip = module.gcp-infra.nat_gateway
-    workloads = [
-      "crawler", "ai-agent", "blog-be"
-    ]
+    nat_ip    = module.gcp-infra.nat_gateway
+    workloads = module.gcp-infra.service-accounts
   }
 
   vpc = {
@@ -40,4 +38,14 @@ module "gcp-infra" {
 
   prefix = var.prefix
   env    = lower(var.env)
+
+  workloads = [
+    "crawler", "ai-agent", "blog-be"
+  ]
 }
+
+
+output "test" {
+  value = module.gcp-infra.service-accounts
+}
+
