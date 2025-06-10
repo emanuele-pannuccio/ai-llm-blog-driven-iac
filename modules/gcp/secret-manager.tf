@@ -18,17 +18,25 @@ module "secret-manager" {
       }
     }
   )
-  iam = merge(
-    {
+  iam = {
+    
       mysql-connection = {
-        "roles/secretmanager.secretAccessor" = [for sa in module.service-account : sa.iam_email]
+        "roles/secretmanager.secretAccessor" = [
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-be/sa/blog-be-sa"
+        ]
       }
       rabbit-connection = {
-        "roles/secretmanager.secretAccessor" = [for sa in module.service-account : sa.iam_email]
+        "roles/secretmanager.secretAccessor" = [
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-feed-crawler/sa/blog-feed-crawler-sa"
+        ]
       }
       mongodb-connection = {
-        "roles/secretmanager.secretAccessor" = [for sa in module.service-account : sa.iam_email]
+        "roles/secretmanager.secretAccessor" = [
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
+          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-feed-crawler/sa/blog-feed-crawler-sa"
+        ]
       }
-    },
-  )
+  }
 }
