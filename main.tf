@@ -40,7 +40,7 @@ module "gcp-infra" {
   env    = lower(var.env)
 
   workloads = [
-    "crawler", "ai-agent", "blog-be"
+    "blog-feed-crawler", "blog-ai-agent", "blog-be"
   ]
 }
 

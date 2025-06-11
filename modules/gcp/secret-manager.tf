@@ -22,20 +22,20 @@ module "secret-manager" {
     
       mysql-connection = {
         "roles/secretmanager.secretAccessor" = [
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-be/sa/blog-be-sa"
+          module.service-account["blog-ai-agent"].iam_email,
+          module.service-account["blog-be"].iam_email
         ]
       }
       rabbit-connection = {
         "roles/secretmanager.secretAccessor" = [
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-feed-crawler/sa/blog-feed-crawler-sa"
+          module.service-account["blog-ai-agent"].iam_email,
+          module.service-account["blog-feed-crawler"].iam_email
         ]
       }
       mongodb-connection = {
         "roles/secretmanager.secretAccessor" = [
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-ai-agent/sa/blog-ai-agent-sa",
-          "principal://iam.googleapis.com/projects/${module.project.number}/locations/global/workloadIdentityPools/${module.project.project_id}.svc.id.goog/subject/ns/blog-feed-crawler/sa/blog-feed-crawler-sa"
+          module.service-account["blog-ai-agent"].iam_email,
+          module.service-account["blog-feed-crawler"].iam_email
         ]
       }
   }
